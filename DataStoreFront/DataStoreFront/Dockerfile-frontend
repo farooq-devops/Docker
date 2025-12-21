@@ -1,15 +1,15 @@
-FROM python:3.9-slim
+FROM openjdk:11-jdk-slim
 
-WORKDIR /app
+LABEL maintainer="osman"
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+WORKDIR /app/source
 
-COPY app.py .
+COPY . .
 
-EXPOSE 8501
+RUN chmod +x mvnw && \
+    ./mvnw clean package -Dspring.profiles.active=build && \
+    mv ./target/*.jar app.jar
 
-# Backend service URL (Docker DNS)
-ENV API_URL=http://be-app:8080
+EXPOSE 8084
 
-CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
