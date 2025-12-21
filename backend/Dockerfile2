@@ -1,8 +1,8 @@
-FFROM ubuntu
+FROM ubuntu
 MAINTAINER osman
 RUN apt-get update -y
 RUN apt-get install -y openjdk-11-jdk
-EXPOSE 8084
+EXPOSE 8082
 WORKDIR /app/source
 COPY . .
 RUN chmod +x mvnw
