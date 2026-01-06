@@ -33,7 +33,7 @@ mvn clean package -Dspring.profiles.active=build
 
 [root@ip-10-0-3-141 ~]# export MYSQL_HOST=jdbc:mysql://database-2.cetueqgig5p3.us-east-1.rds.amazonaws.com:3306/datastore
 [root@ip-10-0-3-141 ~]# export MYSQL_USERNAME=admin
-[root@ip-10-0-3-141 ~]# export MYSQL_PASSWORD=shivakumar
+[root@ip-10-0-3-141 ~]# export MYSQL_PASSWORD=123456
 [root@ip-10-0-3-141 ~]# export LOG_FILE_PATH=/var/log/app/datastore.log
 
 
@@ -67,7 +67,7 @@ chmod 755 datastore-0.0.7.jar
 # Define environment variables and start the app
 MYSQL_HOST=jdbc:mysql://cheetah-dev-db-instance.csfsieiow07g.us-east-1.rds.amazonaws.com:3306/datastore \
 MYSQL_USERNAME=root \
-MYSQL_PASSWORD=shivakumar \
+MYSQL_PASSWORD=123456 \
 LOG_FILE_PATH=/var/log/app/datastore.log \
 nohup java -jar /home/ec2-user/datastore-0.0.7.jar > /var/log/app/nohup.out 2>&1 &
 
@@ -98,6 +98,6 @@ EOF
 /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
 
 
-docker run --name=mydb -e MYSQL_ROOT_PASSWORD=shivakumar -d mysql
-docker run --name=be-app -d --link mydb -e "MYSQL_HOST=jdbc:mysql://mydb:3306/datastore?createDatabaseIfNotExist=true" -e MYSQL_USERNAME=root -e MYSQL_PASSWORD=shivakumar datastore:v1
+docker run --name=mydb -e MYSQL_ROOT_PASSWORD=123456 -d mysql
+docker run --name=be-app -d --link mydb -e "MYSQL_HOST=jdbc:mysql://mydb:3306/datastore?createDatabaseIfNotExist=true" -e MYSQL_USERNAME=root -e MYSQL_PASSWORD=123456 datastore:v1
 docker run --name=fe-app --link be-app -e API_URL=http://be-app:8084 -p 8787:8080 -d datastore-frontend:v1
